@@ -1,23 +1,24 @@
 # calculator-in-c
 ### Goal : Implement a calculator for integers.
 
-* 팀장
-  * 나종우
-* 팀원
+* Leader
+  * 나종우 (20181401)
+* Members
   * 김수혁
-  * 양원우
+  * 양원우 (20180369)
 
-## 역할
-* 나종우 : 프로젝트 총괄, 설계. github 관리. 중위 표기식 -> 후위 표기식 변환 및 계산 구현.
-* 김수혁 : 사용자 인터페이스 구현. 사칙연산 함수 구현.
-* 양원우 : main 함수의 전반적인 틀 구현. 입출력 처리 구현.
+## Roles
+* 나종우 : Manage the project & github. Implement converting to postfix notation and calculating.
+* 김수혁 : Implement getting an user input & showing the result.
+* 양원우 : Implement main function. Make an ending message.
 
-## 진행사항
-* 05/27 : 저장소 생성. README.md 틀을 만듦.
-* 05/28 : 팀원 목록 수정. Git 공부용 참고자료 추가. 
-* 05/29 : 팀원 간 역할 분배. 스택과 후위 표기식을 이용한 계산기를 만들기 위해 참고자료 추가. 개발 시작.
+## Progress
+* 05/27 : Make this repository & README.md.
+* 05/28 : Edit the members list. Add a reference link about Git.
+* 05/29 : Distribute roles. Add reference links about Stack and Postfix Notation.
+* 05/29 : Start Development
 
-## 참고자료
+## Reference
 * http://zipi.ga/n
 * https://ko.wikipedia.org/wiki/%EC%8A%A4%ED%83%9D
 * https://en.wikipedia.org/wiki/Reverse_Polish_notation
