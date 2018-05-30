@@ -1,4 +1,6 @@
+#include "user.h"
 #include "stack.h"
+#include "parse.h"
 
 void push(CalcStack* stack, CalcData val) {
   stack->data[(stack->top)++] = val;
