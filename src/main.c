@@ -11,6 +11,7 @@ int main() {
   while (1) {
     if (InputExp(expRaw) == 0) break;
 	  ExpParse(expRaw, exp);
+	  PrintResult(CalcExp(exp));
   }
   system("pause");
   return 0;

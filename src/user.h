@@ -1,2 +1,3 @@
 #pragma once
-int UserInterface(char* ExpDest);
+int InputExp(char* dest);
+void PrintResult(long long result);
