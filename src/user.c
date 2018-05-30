@@ -2,7 +2,7 @@
 
 void Intro() {
 	printf("You don't need make a calculation one by one!\n");
-	printf("We can calculate the whole expression even which includes parenthesis.\n");
+	printf("We can calculate the whole expression even which includes parenthesis.\n\n");
 }
 
 int InputExp(char* dest) {
