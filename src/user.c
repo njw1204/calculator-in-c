@@ -1,4 +1,4 @@
-#include "user.h"
+#include "user.h"u
 
 void Intro() {
 	printf("You don't need make a calculation one by one!\n");
@@ -12,6 +12,9 @@ int InputExp(char* dest) {
 }
 
 void PrintResult(long long result) {
+	printf("Calculating.....\n");
+	printf("Please wait for a second.\n");
 	printf("The result of your experession is %lld.\n\n", result);
-
+	
 }
+
