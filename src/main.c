@@ -10,7 +10,7 @@ CalcData exp[100000];
 int main() {
   while (1) {
     if (InputExp(expRaw) == 0) break;
-	ExpParse(expRaw, exp);
+	  ExpParse(expRaw, exp);
   }
   system("pause");
   return 0;
