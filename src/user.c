@@ -1,4 +1,4 @@
-#include "user.h"u
+#include "user.h"
 
 void Intro() {
 	printf("You don't need make a calculation one by one!\n");
