@@ -25,4 +25,6 @@ void Ending() {
 	print("\n------------------------\n");
 	printf("| End of calculation |");
 	print("\n------------------------\n");
+
+	printf("\n  Thanks you for using out calculator :) \n");
 }
