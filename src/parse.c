@@ -1,11 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parse.h"
+#include "flag.h"
 
 char tempNumStr[MAX_STACK - 5];
 
 int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
   int tempStrPos = 0, outPos = 0;
+  memset(tempNumStr, 0, sizeof(tempNumStr));
   memset(expDest, 0, expDestSize);
 
   for (size_t i = 0; i < strlen(expRaw); i++) {
@@ -34,7 +36,7 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
         else continue;
       }
       else if (expRaw[i] != '(' && outPos > 0 && expDest[outPos - 1].type == OP && expDest[outPos - 1].op != ')')
-        return 0;
+        return ERROR;
 
       CalcData x;
       x.type = OP;
@@ -42,7 +44,8 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
       expDest[outPos++] = x;
     }
 
-    else return 1;
+    else
+      return ERROR;
   }
 
   if (tempStrPos) {
@@ -55,5 +58,5 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
     tempStrPos = 0;
   }
 
-  return 0;
+  return SUCCESS;
 }
