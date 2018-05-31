@@ -18,3 +18,4 @@ void push(CalcStack* stack, CalcData val);
 CalcData pop(CalcStack* stack);
 CalcData top(const CalcStack* stack);
 int size(const CalcStack* stack);
+void clear(CalcStack* stack);

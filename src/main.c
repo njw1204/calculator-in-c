@@ -1,13 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 
 char expRaw[MAX_STACK - 5];
 CalcData exp[MAX_STACK - 5];
 
 int main() {
-  int errorFlag;
-  long long result;
+  int errorFlag = SUCCESS;
+  long long result = 0;
 
   Intro();
 

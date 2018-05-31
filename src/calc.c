@@ -9,10 +9,11 @@ static void Init() {
   weight['+'] = 2;
   weight['-'] = 2;
   weight['*'] = 3;
+  weight['/'] = 3;
   weight['m'] = 4;
-  stack.top = 0;
-  stack2.top = 0;
-  stack3.top = 0;
+  clear(&stack);
+  clear(&stack2);
+  clear(&stack3);
 }
 
 static int ConvertToPostfix(const CalcData* exp, CalcStack* mainStack, CalcStack* opStack) {
@@ -56,9 +57,39 @@ static int ConvertToPostfix(const CalcData* exp, CalcStack* mainStack, CalcStack
 
 int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* result) {
   while (size(srcStack)) {
-    CalcData t = pop(srcStack);
-
+    CalcData t = pop(srcStack), a, b;
+    if (t.type == OP) {
+      switch (t.op) {
+      case '+': case '-': case '*': case '/':
+        if (size(supportStack) < 2) return ERROR;
+        b = pop(supportStack), a = pop(supportStack);
+        break;
+      case 'm':
+        if (size(supportStack) < 1) return ERROR;
+        a = pop(supportStack);
+        break;
+      default:
+        return ERROR;
+      }
+      if (t.op == '+') a.num += b.num;
+      else if (t.op == '-') a.num -= b.num;
+      else if (t.op == '*') a.num *= b.num;
+      else if (t.op == '/') {
+        if (b.num == 0) return ERROR;
+        a.num /= b.num;
+      }
+      else if (t.op == 'm') a.num = -a.num;
+      push(supportStack, a);
+    }
+    else {
+      push(supportStack, t);
+    }
   }
+  
+  if (size(supportStack) != 1 || top(supportStack).type != NUM)
+    return ERROR;
+
+  *result = pop(supportStack).num;
   return SUCCESS;
 }
 
