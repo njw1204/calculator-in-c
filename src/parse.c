@@ -22,6 +22,7 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
       if (tempStrPos) {
         CalcData x;
         x.type = NUM;
+        x.op = -1;
         x.num = atoll(tempNumStr);
         expDest[outPos++] = x;
         memset(tempNumStr, 0, sizeof(tempNumStr));
@@ -47,6 +48,7 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
   if (tempStrPos) {
     CalcData x;
     x.type = NUM;
+    x.op = -1;
     x.num = atoll(tempNumStr);
     expDest[outPos++] = x;
     memset(tempNumStr, 0, sizeof(tempNumStr));

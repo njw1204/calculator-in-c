@@ -9,9 +9,18 @@ CalcData pop(CalcStack* stack) {
     CalcData t = {-1,-1,-1};
     return t;
   }
-  return stack->data[(stack->top)--];
+  return stack->data[--(stack->top)];
 }
 
-int size(CalcStack* stack) {
+CalcData top(const CalcStack* stack) {
+  if (stack->top == 0) {
+    CalcData t = { -1,-1,-1 };
+    return t;
+  }
+  return stack->data[stack->top - 1];
+};
+
+
+int size(const CalcStack* stack) {
   return stack->top;
 }

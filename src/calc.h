@@ -1,4 +1,4 @@
 #pragma once
 #include "stack.h"
 
-int CalcExp(CalcData* exp, long long* result);
+int CalcExp(const CalcData* exp, long long* result);
