@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "main.h"
 
-char expRaw[MAX_STACK - 5];
-CalcData exp[MAX_STACK - 5];
+char exprRaw[MAX_STACK - 5];
+CalcData expr[MAX_STACK - 5];
 
 int main() {
   int errorFlag = SUCCESS;
@@ -11,9 +11,9 @@ int main() {
   Intro();
 
   while (1) {
-    if (InputExp(expRaw) == EXIT) break;
-    errorFlag = ExpParse(expRaw, exp, sizeof(exp));
-    if (errorFlag == SUCCESS) errorFlag = CalcExp(exp, &result);
+    if (InputExp(exprRaw) == EXIT) break;
+    errorFlag = ExpParse(exprRaw, expr, sizeof(expr));
+    if (errorFlag == SUCCESS) errorFlag = CalcExp(expr, &result);
     PrintResult(result, errorFlag);
   }
 

@@ -6,6 +6,10 @@
 * Members
   * 김수혁 (20180003)
   * 양원우 (20180369)
+<br/>
+
+## Usage
+![example](example.png)
 
 ## Roles
 * 나종우 : Manage the project & github. Implement converting to postfix notation and calculating.
@@ -17,8 +21,10 @@
 * 05/28 : Edit the members list. Add a reference link about Git.
 * 05/29 : Distribute roles. Add reference links about Stack and Postfix Notation.
 * 05/29 : Start Development.
+* 05/31 : Build version 0.1
 
 ## Reference
 * http://zipi.ga/n
 * https://ko.wikipedia.org/wiki/%EC%8A%A4%ED%83%9D
 * https://en.wikipedia.org/wiki/Reverse_Polish_notation
+

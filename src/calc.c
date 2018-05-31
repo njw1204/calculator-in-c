@@ -16,14 +16,14 @@ static void Init() {
   clear(&stack3);
 }
 
-static int ConvertToPostfix(const CalcData* exp, CalcStack* mainStack, CalcStack* opStack) {
-  for (int i = 0; exp[i].type; i++) {
-    if (exp[i].type == NUM)
-      push(mainStack, exp[i]);
+static int ConvertToPostfix(const CalcData* expr, CalcStack* mainStack, CalcStack* opStack) {
+  for (int i = 0; expr[i].type; i++) {
+    if (expr[i].type == NUM)
+      push(mainStack, expr[i]);
     else {
-      if (exp[i].op == '(')
-        push(opStack, exp[i]);
-      else if (exp[i].op == ')') {
+      if (expr[i].op == '(')
+        push(opStack, expr[i]);
+      else if (expr[i].op == ')') {
         int pass = 0;
         while (size(opStack)) {
           CalcData t = pop(opStack);
@@ -38,9 +38,9 @@ static int ConvertToPostfix(const CalcData* exp, CalcStack* mainStack, CalcStack
           return ERROR;
       }
       else {
-        while (size(opStack) && weight[top(opStack).op] >= weight[exp[i].op])
+        while (size(opStack) && weight[top(opStack).op] >= weight[expr[i].op])
           push(mainStack, pop(opStack));
-        push(opStack, exp[i]);
+        push(opStack, expr[i]);
       }
     }
   }
@@ -58,6 +58,7 @@ static int ConvertToPostfix(const CalcData* exp, CalcStack* mainStack, CalcStack
 int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* result) {
   while (size(srcStack)) {
     CalcData t = pop(srcStack), a, b;
+
     if (t.type == OP) {
       switch (t.op) {
       case '+': case '-': case '*': case '/':
@@ -71,6 +72,7 @@ int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* re
       default:
         return ERROR;
       }
+
       if (t.op == '+') a.num += b.num;
       else if (t.op == '-') a.num -= b.num;
       else if (t.op == '*') a.num *= b.num;
@@ -81,9 +83,9 @@ int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* re
       else if (t.op == 'm') a.num = -a.num;
       push(supportStack, a);
     }
-    else {
+
+    else
       push(supportStack, t);
-    }
   }
   
   if (size(supportStack) != 1 || top(supportStack).type != NUM)
@@ -93,10 +95,10 @@ int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* re
   return SUCCESS;
 }
 
-int CalcExp(const CalcData* exp, long long* result) {
+int CalcExp(const CalcData* expr, long long* result) {
   Init();
 
-  if (ConvertToPostfix(exp, &stack, &stack2) == ERROR)
+  if (ConvertToPostfix(expr, &stack, &stack2) == ERROR)
     return ERROR;
 
   while (size(&stack))
