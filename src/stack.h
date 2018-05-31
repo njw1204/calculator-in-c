@@ -1,4 +1,6 @@
 #pragma once
+#define MAX_STACK 100005
+
 enum TYPE { OP = 1, NUM = 2 };
 
 typedef struct CalcData {
@@ -9,7 +11,7 @@ typedef struct CalcData {
 
 typedef struct CalcStack {
   int top;
-  CalcData data[100000];
+  CalcData data[MAX_STACK];
 } CalcStack;
 
 void push(CalcStack* stack, CalcData val);

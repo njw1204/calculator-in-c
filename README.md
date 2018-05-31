@@ -4,7 +4,7 @@
 * Leader
   * 나종우 (20181401)
 * Members
-  * 김수혁
+  * 김수혁 (20180003)
   * 양원우 (20180369)
 
 ## Roles
@@ -16,7 +16,7 @@
 * 05/27 : Make this repository & README.md.
 * 05/28 : Edit the members list. Add a reference link about Git.
 * 05/29 : Distribute roles. Add reference links about Stack and Postfix Notation.
-* 05/29 : Start Development
+* 05/29 : Start Development.
 
 ## Reference
 * http://zipi.ga/n
