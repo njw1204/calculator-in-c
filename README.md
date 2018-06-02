@@ -21,7 +21,7 @@
 * 2018/05/28 : Edit the members list. Add a reference link about Git.
 * 2018/05/29 : Distribute roles. Add reference links about Stack and Postfix Notation.
 * 2018/05/29 : Start Development.
-* 2018/05/31 : Build version 0.1
+* 2018/05/31 : Build version 0.1 (support only 64-bit integers)
 * 2018/06/02 : Begin developing BigInt.
 
 ## Reference
