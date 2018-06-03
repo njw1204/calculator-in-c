@@ -7,7 +7,7 @@
 void Get(const BigInt* var, char* num) {
   int pos = 0;
   memset(num, 0, BIGINT_SIZE);
-  if (var->sign == -1) num[pos++] = '-';
+  if (var->sign == -1 && !IsZero(var)) num[pos++] = '-';
   for (int i = var->len - 1; i >= 0; i--, pos++)
     num[pos] = var->num[i];
 }
@@ -40,6 +40,19 @@ int Set(BigInt* var, const char* num) {
     else break;
   }
 
+  return SUCCESS;
+}
+
+
+int SetRaw(BigInt* var, char sign, int len, const char* bigIntRawStr) {
+  if (len > BIGINT_MAX_LEN) {
+    Reset(var);
+    return ERROR;
+  }
+  var->sign = sign;
+  var->len = len;
+  memset(var->num, 0, BIGINT_SIZE);
+  memcpy(var->num, bigIntRawStr, len);
   return SUCCESS;
 }
 
@@ -119,6 +132,12 @@ int Compare(const BigInt* left, const BigInt* right, int absolute) {
 }
 
 
+int IsZero(const BigInt* val) {
+  if (val->len == 1 && val->num[0] == '0') return 1;
+  else return 0;
+}
+
+
 int Add(BigInt* left, BigInt* right) {
   if (Compare(left, right, TRUE) == -1)
     Swap(left, right);
@@ -148,6 +167,7 @@ int Add(BigInt* left, BigInt* right) {
         left->len++;
       }
     }
+
     Reset(right);
     return SUCCESS;
   }
@@ -193,14 +213,14 @@ int Sub(BigInt* left, BigInt* right) {
 
   int carry = 0;
   for (int i = 0; i < left->len; i++) {
-    int sub = left->num[i] - '0' + carry;
-    if (i < right->len) sub -= right->num[i] - '0';
-    if (sub < 0) {
-      sub += 10;
+    int sum = left->num[i] - '0' + carry;
+    if (i < right->len) sum -= right->num[i] - '0';
+    if (sum < 0) {
+      sum += 10;
       carry = -1;
     }
     else carry = 0;
-    left->num[i] = sub + '0';
+    left->num[i] = sum + '0';
   }
 
   for (int i = left->len - 1; i >= 1; i--) {
@@ -211,6 +231,74 @@ int Sub(BigInt* left, BigInt* right) {
     else break;
   }
 
+  left->sign = signFlag;
+  Reset(right);
+  return SUCCESS;
+}
+
+
+int Mul10(BigInt* val, int count) {
+  if (val->len + count > BIGINT_MAX_LEN) {
+    Reset(val);
+    return ERROR;
+  }
+  memmove(val->num + count, val->num, val->len);
+  for (int i = 0; i < count; i++) val->num[i] = '0';
+  val->len += count;
+  val->num[val->len] = 0;
+  return SUCCESS;
+}
+
+
+int Mul(BigInt* left, BigInt* right) {
+  BigInt MulOne[10];
+  int errorFlag[10] = {SUCCESS};
+  int signFlag;
+
+  if (left->sign == right->sign) signFlag = 1;
+  else signFlag = -1;
+
+  left->sign = 1;
+  right->sign = 1;
+  SetRaw(&MulOne[0], 1, 1, "0");
+
+  
+  for (int i = 1; i <= 9; i++) {
+    BigInt temp;
+    if (errorFlag[i - 1] == ERROR) {
+      errorFlag[i] = ERROR;
+      continue;
+    }
+    Copy(&MulOne[i], &MulOne[i - 1]);
+    Copy(&temp, left);
+    if (Add(&MulOne[i], &temp) == ERROR) errorFlag[i] = ERROR;
+  }
+
+  BigInt result;
+  SetRaw(&result, 1, 1, "0");
+
+  for (int i = 0; i < right->len; i++) {
+    BigInt temp;
+    if (right->num[i] == '0') continue;
+    if (errorFlag[right->num[i] - '0'] == ERROR) {
+      Reset(left);
+      Reset(right);
+      return ERROR;
+    }
+    Copy(&temp, &MulOne[right->num[i] - '0']);
+    if (Mul10(&temp, i) == ERROR) {
+      Reset(left);
+      Reset(right);
+      return ERROR;
+    }
+    if (Add(&result, &temp) == ERROR) {
+      Reset(left);
+      Reset(right);
+      return ERROR;
+    }
+  }
+
+  Copy(left, &result);
   left->sign = signFlag;
   Reset(right);
   return SUCCESS;
@@ -237,4 +325,10 @@ void BigIntTest() {
   Sub(&a, &b);
   Get(&a, num3);
   printf("A - B = %s\n", num3);
+
+  Set(&a, num);
+  Set(&b, num2);
+  Mul(&a, &b);
+  Get(&a, num3);
+  printf("A x B = %s\n", num3);
 }
