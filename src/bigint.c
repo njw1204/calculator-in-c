@@ -40,7 +40,7 @@ int Set(BigInt* var, const char* num) {
     else break;
   }
 
-  if (isZero(var)) var->sign = 1;
+  if (IsZero(var)) var->sign = 1;
   return SUCCESS;
 }
 
@@ -54,7 +54,7 @@ int SetRaw(BigInt* var, char sign, int len, const char* bigIntRawStr) {
   var->len = len;
   memset(var->num, 0, BIGINT_SIZE);
   memcpy(var->num, bigIntRawStr, len);
-  if (isZero(var)) var->sign = 1;
+  if (IsZero(var)) var->sign = 1;
   return SUCCESS;
 }
 
@@ -170,7 +170,7 @@ int Add(BigInt* left, BigInt* right) {
       }
     }
 
-    if (isZero(left)) left->sign = 1;
+    if (IsZero(left)) left->sign = 1;
     Reset(right);
     return SUCCESS;
   }
@@ -198,11 +198,11 @@ int Sub(BigInt* left, BigInt* right) {
   }
 
   int signFlag, cmp = Compare(left, right, TRUE);
-  if (cmp < 0) {
+  if (cmp == -1) {
     Swap(left, right);
     signFlag = -1;
   }
-  else if (cmp > 0) {
+  else if (cmp == 1) {
     signFlag = 1;
   }
   else {
@@ -235,7 +235,7 @@ int Sub(BigInt* left, BigInt* right) {
   }
 
   left->sign = signFlag;
-  if (isZero(left)) left->sign = 1;
+  if (IsZero(left)) left->sign = 1;
   Reset(right);
   return SUCCESS;
 }
