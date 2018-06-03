@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "bigint.h"
+#include "flag.h"
 
 
 void Get(const BigInt* var, char* num) {

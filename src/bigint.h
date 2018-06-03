@@ -1,8 +1,4 @@
 #pragma once
-#define TRUE 1
-#define FALSE 0
-#define SUCCESS 0
-#define ERROR 1
 #define BIGINT_MAX_LEN 9999
 #define BIGINT_SIZE BIGINT_MAX_LEN+2
 
