@@ -40,6 +40,7 @@ int Set(BigInt* var, const char* num) {
     else break;
   }
 
+  if (isZero(var)) var->sign = 1;
   return SUCCESS;
 }
 
@@ -53,6 +54,7 @@ int SetRaw(BigInt* var, char sign, int len, const char* bigIntRawStr) {
   var->len = len;
   memset(var->num, 0, BIGINT_SIZE);
   memcpy(var->num, bigIntRawStr, len);
+  if (isZero(var)) var->sign = 1;
   return SUCCESS;
 }
 
@@ -168,6 +170,7 @@ int Add(BigInt* left, BigInt* right) {
       }
     }
 
+    if (isZero(left)) left->sign = 1;
     Reset(right);
     return SUCCESS;
   }
@@ -232,12 +235,14 @@ int Sub(BigInt* left, BigInt* right) {
   }
 
   left->sign = signFlag;
+  if (isZero(left)) left->sign = 1;
   Reset(right);
   return SUCCESS;
 }
 
 
 int Mul10(BigInt* val, int count) {
+  if (IsZero(val)) return SUCCESS;
   if (val->len + count > BIGINT_MAX_LEN) {
     Reset(val);
     return ERROR;
@@ -297,9 +302,10 @@ int Mul(BigInt* left, BigInt* right) {
       return ERROR;
     }
   }
-
+  
   Copy(left, &result);
   left->sign = signFlag;
+  if (isZero(left)) left->sign = 1;
   Reset(right);
   return SUCCESS;
 }
