@@ -305,7 +305,7 @@ int Mul(BigInt* left, BigInt* right) {
   
   Copy(left, &result);
   left->sign = signFlag;
-  if (isZero(left)) left->sign = 1;
+  if (IsZero(left)) left->sign = 1;
   Reset(right);
   return SUCCESS;
 }
