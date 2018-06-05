@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parse.h"
+#include "bigint.h"
 #include "flag.h"
 
 char tempNumStr[MAX_STACK - 5];

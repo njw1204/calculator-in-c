@@ -1,4 +1,5 @@
 #pragma once
+#include "bigint.h"
 
 void Intro();
 void Ending();
