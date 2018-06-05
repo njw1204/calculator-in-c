@@ -3,12 +3,13 @@
 #define BIGINT_SIZE BIGINT_MAX_LEN+2
 
 typedef struct {
-  int len;
   char sign;
+  int len;
   char num[BIGINT_SIZE];
 } BigInt;
 
 void Get(const BigInt* var, char* num);
+void GetRaw(const BigInt* var, char* sign, int* len, char* bigIntRawStr);
 int Set(BigInt* var, const char* num);
 int SetRaw(BigInt* var, char sign, int len, const char* bigIntRawStr);
 void Copy(BigInt* dest, const BigInt* source);

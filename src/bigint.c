@@ -4,6 +4,8 @@
 #include "bigint.h"
 #include "flag.h"
 
+static void EraseLeadZero(BigInt* var);
+static void GetMulOneDigitData(const BigInt* var, BigInt* mulOneResult, int* errorFlagResult);
 
 void Get(const BigInt* var, char* num) {
   int pos = 0;
@@ -11,6 +13,13 @@ void Get(const BigInt* var, char* num) {
   if (var->sign == -1 && !IsZero(var)) num[pos++] = '-';
   for (int i = var->len - 1; i >= 0; i--, pos++)
     num[pos] = var->num[i];
+}
+
+
+void GetRaw(const BigInt* var, char* sign, int* len, char* bigIntRawStr) {
+  if (sign) *sign = var->sign;
+  if (len) *len = var->len;
+  if (bigIntRawStr) memcpy(bigIntRawStr, var->num, BIGINT_SIZE);
 }
 
 
@@ -33,13 +42,7 @@ int Set(BigInt* var, const char* num) {
   }
 
   var->len = strlen(var->num);
-  for (int i = var->len - 1; i >= 1; i--) {
-    if (var->num[i] == '0') {
-      var->num[i] = 0;
-      var->len--;
-    }
-    else break;
-  }
+  EraseLeadZero(var);
 
   if (IsZero(var)) var->sign = 1;
   return SUCCESS;
@@ -145,6 +148,11 @@ int Add(BigInt* left, BigInt* right) {
   if (Compare(left, right, TRUE) == -1)
     Swap(left, right);
 
+  if (IsZero(right)) {
+    Reset(right);
+    return SUCCESS;
+  }
+
   if (left->sign == right->sign) {
     int carry = 0;
     for (int i = 0; i < left->len; i++) {
@@ -215,6 +223,11 @@ int Sub(BigInt* left, BigInt* right) {
     return SUCCESS;
   }
 
+  if (IsZero(right)) {
+    Reset(right);
+    return SUCCESS;
+  }
+
   int carry = 0;
   for (int i = 0; i < left->len; i++) {
     int sum = left->num[i] - '0' + carry;
@@ -227,15 +240,8 @@ int Sub(BigInt* left, BigInt* right) {
     left->num[i] = sum + '0';
   }
 
-  for (int i = left->len - 1; i >= 1; i--) {
-    if (left->num[i] == '0') {
-      left->num[i] = 0;
-      left->len--;
-    }
-    else break;
-  }
-
   left->sign = signFlag;
+  EraseLeadZero(left);
   if (IsZero(left)) left->sign = 1;
   Reset(right);
   return SUCCESS;
@@ -257,58 +263,73 @@ int Mul10(BigInt* val, int count) {
 
 
 int Mul(BigInt* left, BigInt* right) {
-  BigInt MulOne[10];
-  int errorFlag[10] = {SUCCESS};
   int signFlag;
-
   if (left->sign == right->sign) signFlag = 1;
   else signFlag = -1;
-
   left->sign = 1;
   right->sign = 1;
-  SetRaw(&MulOne[0], 1, 1, "0");
 
-  
-  for (int i = 1; i <= 9; i++) {
-    BigInt temp;
-    if (errorFlag[i - 1] == ERROR) {
-      errorFlag[i] = ERROR;
-      continue;
-    }
-    Copy(&MulOne[i], &MulOne[i - 1]);
-    Copy(&temp, left);
-    if (Add(&MulOne[i], &temp) == ERROR) errorFlag[i] = ERROR;
+  if (IsZero(left) || IsZero(right)) {
+    SetRaw(left, 1, 1, "0");
+    Reset(right);
+    return SUCCESS;
   }
 
-  BigInt result;
-  SetRaw(&result, 1, 1, "0");
+  BigInt mulOne[10], temp;
+  int errorFlag[10] = {SUCCESS};
+  GetMulOneDigitData(left, mulOne, errorFlag);
+  SetRaw(left, 1, 1, "0");
 
   for (int i = 0; i < right->len; i++) {
-    BigInt temp;
     if (right->num[i] == '0') continue;
     if (errorFlag[right->num[i] - '0'] == ERROR) {
       Reset(left);
       Reset(right);
       return ERROR;
     }
-    Copy(&temp, &MulOne[right->num[i] - '0']);
+    Copy(&temp, &mulOne[right->num[i] - '0']);
     if (Mul10(&temp, i) == ERROR) {
       Reset(left);
       Reset(right);
       return ERROR;
     }
-    if (Add(&result, &temp) == ERROR) {
+    if (Add(left, &temp) == ERROR) {
       Reset(left);
       Reset(right);
       return ERROR;
     }
   }
-  
-  Copy(left, &result);
+
   left->sign = signFlag;
   if (IsZero(left)) left->sign = 1;
   Reset(right);
   return SUCCESS;
+}
+
+
+static void EraseLeadZero(BigInt* var) {
+  for (int i = var->len - 1; i >= 1; i--) {
+    if (var->num[i] == '0') {
+      var->num[i] = 0;
+      var->len--;
+    }
+    else break;
+  }
+}
+
+
+static void GetMulOneDigitData(const BigInt* var, BigInt* mulOneResult, int* errorFlagResult) {
+  BigInt temp;
+  SetRaw(mulOneResult, 1, 1, "0");
+  for (int i = 1; i <= 9; i++) {
+    if (errorFlagResult[i - 1] == ERROR) {
+      errorFlagResult[i] = ERROR;
+      continue;
+    }
+    Copy(mulOneResult + i, mulOneResult + i - 1);
+    Copy(&temp, var);
+    if (Add(mulOneResult + i, &temp) == ERROR) errorFlagResult[i] = ERROR;
+  }
 }
 
 
