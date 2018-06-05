@@ -412,32 +412,3 @@ static void GetMulOneDigitData(const BigInt* var, BigInt* mulOneResult, int* err
     if (Add(mulOneResult + i, &temp) == ERROR) errorFlagResult[i] = ERROR;
   }
 }
-
-
-void BigIntTest() {
-  BigInt a, b;
-  char num[BIGINT_SIZE], num2[BIGINT_SIZE], num3[BIGINT_SIZE];
-
-  printf("A = ");
-  scanf("%s", num);
-  printf("B = ");
-  scanf("%s", num2);
-
-  Set(&a, num);
-  Set(&b, num2);
-  Add(&a, &b);
-  Get(&a, num3);
-  printf("A + B = %s\n", num3);
-
-  Set(&a, num);
-  Set(&b, num2);
-  Sub(&a, &b);
-  Get(&a, num3);
-  printf("A - B = %s\n", num3);
-
-  Set(&a, num);
-  Set(&b, num2);
-  Mul(&a, &b);
-  Get(&a, num3);
-  printf("A x B = %s\n", num3);
-}
