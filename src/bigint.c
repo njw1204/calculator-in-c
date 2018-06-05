@@ -307,6 +307,87 @@ int Mul(BigInt* left, BigInt* right) {
 }
 
 
+int Div10(BigInt* val, int count) {
+  if (IsZero(val)) return SUCCESS;
+  if (count >= val->len) {
+    SetRaw(val, 1, 1, "0");
+    return SUCCESS;
+  }
+  memmove(val->num, val->num + count, val->len - count);
+  for (int i = val->len - count; i < val->len; i++) val->num[i] = 0;
+  val->len -= count;
+  return SUCCESS;
+}
+
+
+int Div(BigInt* left, BigInt* right) {
+  int signFlag;
+  if (left->sign == right->sign) signFlag = 1;
+  else signFlag = -1;
+  left->sign = 1;
+  right->sign = 1;
+
+  if (IsZero(right)) {
+    Reset(left);
+    Reset(right);
+    return ERROR;
+  }
+
+  int cmp = Compare(left, right, TRUE);
+  if (cmp == -1) {
+    SetRaw(left, 1, 1, "0");
+    Reset(right);
+    return SUCCESS;
+  }
+  else if (cmp == 0) {
+    SetRaw(left, signFlag, 1, "1");
+    Reset(right);
+    return SUCCESS;
+  }
+
+  BigInt mulOne[10], temp, result;
+  int errorFlag[10] = {SUCCESS};
+  GetMulOneDigitData(right, mulOne, errorFlag);
+  Reset(&result);
+  Reset(&temp);
+
+  for (int i = left->len - right->len; i >= 0; i--) {
+    int match = 0;
+    strncpy(temp.num, left->num + i, left->len - i);
+    temp.len = left->len - i;
+
+    for (int j = 1; j <= 9; j++) {
+      if (errorFlag[j] || Compare(&mulOne[j], &temp, TRUE) == 1) {
+        match = j - 1;
+        result.num[i] = match + '0';
+        if (result.len == 0 && match != 0) result.len = i + 1;
+        break;
+      }
+      else if (j == 9) {
+        result.num[i] = '9';
+        if (result.len == 0) result.len = i + 1;
+      }
+    }
+
+    Copy(&temp, &mulOne[match]);
+    Mul10(&temp, i);
+    Sub(left, &temp);
+
+    if (IsZero(left)) break;
+  }
+
+  Copy(left, &result);
+  EraseLeadZero(left);
+  left->sign = signFlag;
+  for (int i = 0; i < left->len; i++) {
+    if (left->num[i] == 0) left->num[i] = '0';
+    else break;
+  }
+
+  return SUCCESS;
+}
+
+
 static void EraseLeadZero(BigInt* var) {
   for (int i = var->len - 1; i >= 1; i--) {
     if (var->num[i] == '0') {

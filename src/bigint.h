@@ -21,3 +21,5 @@ int Add(BigInt* left, BigInt* right);
 int Sub(BigInt* left, BigInt* right);
 int Mul10(BigInt* val, int count);
 int Mul(BigInt* left, BigInt* right);
+int Div10(BigInt* val, int count);
+int Div(BigInt* left, BigInt* right);
