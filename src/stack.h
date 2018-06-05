@@ -1,6 +1,6 @@
 #pragma once
 #include "bigint.h"
-#define MAX_STACK 100005
+#define MAX_STACK 50005
 
 enum TYPE { OP = 1, NUM = 2 };
 
