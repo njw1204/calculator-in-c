@@ -55,7 +55,7 @@ static int ConvertToPostfix(const CalcData* expr, CalcStack* mainStack, CalcStac
   return SUCCESS;
 }
 
-int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* result) {
+int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, BigInt* result) {
   while (size(srcStack)) {
     CalcData t = pop(srcStack), a, b;
 
@@ -73,14 +73,14 @@ int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* re
         return ERROR;
       }
 
-      if (t.op == '+') a.num += b.num;
-      else if (t.op == '-') a.num -= b.num;
-      else if (t.op == '*') a.num *= b.num;
-      else if (t.op == '/') {
-        if (b.num == 0) return ERROR;
-        a.num /= b.num;
-      }
-      else if (t.op == 'm') a.num = -a.num;
+	  if (t.op == '+') Add(&a.num, &b.num);
+	  else if (t.op == '-') Sub(&a.num, &b.num);
+	  else if (t.op == '*') Mul(&a.num, &b.num);
+    else if (t.op == '/') Div(&a.num, &b.num);
+	  else if (t.op == 'm') {
+		  if (a.num.sign == -1) a.num.sign = 1;
+		  else a.num.sign = -1;
+	  }
       push(supportStack, a);
     }
 
@@ -91,11 +91,12 @@ int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, long long* re
   if (size(supportStack) != 1 || top(supportStack).type != NUM)
     return ERROR;
 
-  *result = pop(supportStack).num;
+  CalcData temp = pop(supportStack);
+  Copy(result, &temp.num);
   return SUCCESS;
 }
 
-int CalcExp(const CalcData* expr, long long* result) {
+int CalcExp(const CalcData* expr, BigInt* result) {
   Init();
 
   if (ConvertToPostfix(expr, &stack, &stack2) == ERROR)

@@ -7,7 +7,7 @@ enum TYPE { OP = 1, NUM = 2 };
 typedef struct CalcData {
   int type;
   char op;
-  long long num;
+  BigInt num;
 } CalcData;
 
 typedef struct CalcStack {

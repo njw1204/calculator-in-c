@@ -6,7 +6,9 @@ void push(CalcStack* stack, CalcData val) {
 
 CalcData pop(CalcStack* stack) {
   if (stack->top == 0) {
-    CalcData t = {-1,-1,-1};
+    CalcData t;
+    t.op = -1;
+    t.type = -1;
     return t;
   }
   return stack->data[--(stack->top)];
@@ -14,7 +16,9 @@ CalcData pop(CalcStack* stack) {
 
 CalcData top(const CalcStack* stack) {
   if (stack->top == 0) {
-    CalcData t = {-1,-1,-1};
+    CalcData t;
+    t.op = -1;
+    t.type = -1;
     return t;
   }
   return stack->data[stack->top - 1];

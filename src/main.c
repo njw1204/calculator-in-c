@@ -6,7 +6,8 @@ CalcData expr[MAX_STACK - 5];
 
 int main() {
   int errorFlag = SUCCESS;
-  long long result = 0;
+  BigInt result;
+  Set(&result, "0");
 
   Intro();
 
