@@ -1,24 +1,28 @@
 #include <stdio.h>
 #include "main.h"
 
-char exprRaw[MAX_STACK - 5];
-CalcData expr[MAX_STACK - 5];
+char exprRaw[MAX_STACK];
+CalcData expr[MAX_STACK];
 
 int main() {
-  int errorFlag = SUCCESS;
   BigInt result;
-  Set(&result, "0");
+  int command = SUCCESS;
+  for (int i = 0; i < MAX_STACK; i++) Reset(&expr[i].num);
+  Reset(&result);
 
-  Intro();
-
-  while (1) {
-    if (InputExp(exprRaw) == EXIT) break;
-    errorFlag = ExpParse(exprRaw, expr, sizeof(expr));
-    if (errorFlag == SUCCESS) errorFlag = CalcExp(expr, &result);
-    PrintResult(result, errorFlag);
+  while (command != EXIT) {
+    Intro();
+    while (1) {
+      command = InputExp(exprRaw);
+      if (command == EXIT) break;
+      if (ExpParse(exprRaw, expr, sizeof(expr)) == SUCCESS &&
+          CalcExp(expr, &result) == SUCCESS)
+        PrintResult(&result);
+      else
+        PrintResult(NULL);
+    }
   }
 
   Ending();
-
   return 0;
 }
