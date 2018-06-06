@@ -364,6 +364,7 @@ int Div(BigInt* left, BigInt* right) {
         break;
       }
       else if (j == 9) {
+        match = 9;
         result.num[i] = '9';
         if (result.len == 0) result.len = i + 1;
       }
