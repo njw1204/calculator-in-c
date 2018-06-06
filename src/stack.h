@@ -15,8 +15,8 @@ typedef struct CalcStack {
   CalcData data[MAX_STACK];
 } CalcStack;
 
-void push(CalcStack* stack, CalcData val);
-CalcData pop(CalcStack* stack);
-CalcData top(const CalcStack* stack);
+void push(CalcStack* stack, const CalcData* val);
+CalcData* pop(CalcStack* stack);
+CalcData* top(CalcStack* stack);
 int size(const CalcStack* stack);
 void clear(CalcStack* stack);

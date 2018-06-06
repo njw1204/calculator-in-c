@@ -4,7 +4,7 @@
 #include "bigint.h"
 #include "flag.h"
 
-char tempNumStr[MAX_STACK - 5];
+char tempNumStr[MAX_STACK];
 
 int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
   int tempStrPos = 0, outPos = 0;
@@ -26,8 +26,8 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
         CalcData x;
         x.type = NUM;
         x.op = -1;
-		Set(&x.num, tempNumStr);
-        expDest[outPos++] = x;
+        Set(&x.num, tempNumStr);
+        memcpy(&expDest[outPos++], &x, sizeof(CalcData));
         memset(tempNumStr, 0, sizeof(tempNumStr));
         tempStrPos = 0;
       }
@@ -42,7 +42,7 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
       CalcData x;
       x.type = OP;
       x.op = expRaw[i];
-      expDest[outPos++] = x;
+      memcpy(&expDest[outPos++], &x, sizeof(CalcData));
     }
 
     else
@@ -53,8 +53,8 @@ int ExpParse(char* expRaw, CalcData* expDest, size_t expDestSize) {
     CalcData x;
     x.type = NUM;
     x.op = -1;
-	Set(&x.num, tempNumStr);
-    expDest[outPos++] = x;
+    Set(&x.num, tempNumStr);
+    memcpy(&expDest[outPos++], &x, sizeof(CalcData));
     memset(tempNumStr, 0, sizeof(tempNumStr));
     tempStrPos = 0;
   }

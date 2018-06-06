@@ -1,29 +1,20 @@
+#include <string.h>
 #include "stack.h"
+#include "flag.h"
 
-void push(CalcStack* stack, CalcData val) {
-  stack->data[(stack->top)++] = val;
+void push(CalcStack* stack, const CalcData* val) {
+  memcpy(&stack->data[(stack->top)++], val, sizeof(CalcData));
 }
 
-CalcData pop(CalcStack* stack) {
-  if (stack->top == 0) {
-    CalcData t;
-    t.op = -1;
-    t.type = -1;
-    return t;
-  }
-  return stack->data[--(stack->top)];
+CalcData* pop(CalcStack* stack) {
+  if (stack->top == 0) return NULL;
+  return &stack->data[--(stack->top)];
 }
 
-CalcData top(const CalcStack* stack) {
-  if (stack->top == 0) {
-    CalcData t;
-    t.op = -1;
-    t.type = -1;
-    return t;
-  }
-  return stack->data[stack->top - 1];
+CalcData* top(CalcStack* stack) {
+  if (stack->top == 0) return NULL;
+  return &stack->data[stack->top - 1];
 };
-
 
 int size(const CalcStack* stack) {
   return stack->top;

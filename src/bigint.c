@@ -64,9 +64,7 @@ int SetRaw(BigInt* var, char sign, int len, const char* bigIntRawStr) {
 
 
 void Copy(BigInt* dest, const BigInt* source) {
-  dest->len = source->len;
-  dest->sign = source->sign;
-  memcpy(dest->num, source->num, BIGINT_SIZE);
+  memcpy(dest, source, sizeof(BigInt));
 }
 
 
@@ -82,7 +80,7 @@ void Swap(BigInt* left, BigInt* right) {
     minLen = left->len;
     maxSide = 1;
   }
-  
+
   for (int i = 0; i < maxLen; i++) {
     if (i < minLen) {
       char t = left->num[i];
