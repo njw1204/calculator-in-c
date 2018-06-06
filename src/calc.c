@@ -78,9 +78,15 @@ int CalculatePostfix(CalcStack* srcStack, CalcStack* supportStack, BigInt* resul
         return ERROR;
       }
 
-      if (t.op == '+') Add(&a.num, &b.num);
-      else if (t.op == '-') Sub(&a.num, &b.num);
-      else if (t.op == '*') Mul(&a.num, &b.num);
+      if (t.op == '+') {
+        if (Add(&a.num, &b.num) == ERROR) return ERROR;
+      }
+      else if (t.op == '-') {
+        if (Sub(&a.num, &b.num) == ERROR) return ERROR;
+      }
+      else if (t.op == '*') {
+        if (Mul(&a.num, &b.num) == ERROR) return ERROR;
+      }
       else if (t.op == '/') {
         if (Div(&a.num, &b.num) == ERROR) return ERROR;
       }
