@@ -1,5 +1,5 @@
 #pragma once
-#define BIGINT_MAX_LEN 9999
+#define BIGINT_MAX_LEN 4999
 #define BIGINT_SIZE BIGINT_MAX_LEN+2
 
 typedef struct {
