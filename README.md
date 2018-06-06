@@ -9,11 +9,15 @@
 <br/>
 
 ## Usage
+Support only integers in a range of -10<sup>5000</sup>~10<sup>5000</sup><br/>
+All intermediate calculation results must be within the range.<br/>
+The maximum formula length is 50000 bytes.
+
 ![example](example.png)
 
 ## Roles
-* 나종우 : Manage the project & github. Implement converting to postfix notation and calculating.
-* 김수혁 : Implement getting an user input & showing the result.
+* 나종우 : Manage the project & repo. Implement converting to postfix notation and calculating + BigInt.
+* 김수혁 : Implement getting an user input & showing the result. Make Intro.
 * 양원우 : Implement main function. Make an ending message.
 
 ## Progress
@@ -23,6 +27,7 @@
 * 2018/05/29 : Start Development.
 * 2018/05/31 : Build version 0.1 (support only 64-bit integers)
 * 2018/06/02 : Begin developing BigInt.
+* 2018/06/06 : Build version 0.2 (support big integers)
 
 ## Reference
 * http://zipi.ga/n
