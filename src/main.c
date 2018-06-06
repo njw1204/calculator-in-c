@@ -14,7 +14,7 @@ int main() {
     Intro();
     while (1) {
       command = InputExp(exprRaw);
-      if (command == EXIT) break;
+      if (command == EXIT || command == CLEAR) break;
       if (ExpParse(exprRaw, expr, sizeof(expr)) == SUCCESS &&
           CalcExp(expr, &result) == SUCCESS)
         PrintResult(&result);

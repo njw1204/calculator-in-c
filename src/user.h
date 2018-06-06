@@ -4,4 +4,4 @@
 void Intro();
 void Ending();
 int InputExp(char* dest);
-void PrintResult(BigInt result, int errorFlag);
+void PrintResult(BigInt* result);
