@@ -9,7 +9,7 @@
 <br/>
 
 ## Usage
-Support only integers in a range of -10<sup>5000</sup>~10<sup>5000</sup><br/>
+Support an integer more than -10<sup>5000</sup> and less than 10<sup>5000</sup>.<br/>
 All intermediate calculation results must be within the range.<br/>
 The maximum formula length is 50000 bytes.
 
