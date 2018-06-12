@@ -351,6 +351,11 @@ int Div(BigInt* left, BigInt* right) {
 
   for (int i = left->len - right->len; i >= 0; i--) {
     int match = 0;
+    if (i >= left->len) {
+      for (int j = i; j >= left->len; j--) result.num[j] = '0';
+      i = left->len - 1;
+    }
+
     strncpy(temp.num, left->num + i, left->len - i);
     temp.len = left->len - i;
 
